@@ -1,0 +1,70 @@
+import type { ServicePillar } from "@/types/medical";
+
+export const servicePillars: readonly ServicePillar[] = [
+  {
+    slug: "apoyo-diagnostico",
+    name: "Apoyo diagnóstico",
+    tagline: "Diagnóstico de precisión en un solo lugar, sin vueltas.",
+    icon: "scan",
+    size: "lg",
+    services: [
+      { name: "Densitometría ósea" },
+      { name: "Videocapilaroscopía" },
+      { name: "Ecografía musculoesquelética y general" },
+      { name: "Laboratorio clínico e inmunológico" },
+      { name: "Evaluación de osteoporosis severa (VFA)" },
+      { name: "Análisis de composición corporal" },
+      { name: "Densitometría en caderas con prótesis" },
+      { name: "Evaluaciones estandarizadas" },
+    ],
+  },
+  {
+    slug: "apoyo-terapeutico",
+    name: "Apoyo terapéutico",
+    tagline: "Unidad de Terapia Biológica e Inhibidores JAK.",
+    icon: "pill",
+    size: "sm",
+    services: [
+      { name: "Administración endovenosa y subcutánea" },
+      { name: "Pulsos de medicación" },
+      { name: "Medicamentos biotecnológicos" },
+      { name: "Monitoreo de adherencia" },
+      { name: "Gestión del riesgo e inmunizaciones" },
+    ],
+  },
+  {
+    slug: "telemedicina",
+    name: "Telemedicina",
+    tagline: "Tu control desde casa u oficina.",
+    icon: "video",
+    size: "sm",
+    services: [{ name: "Teleconsulta" }, { name: "Teleinterconsulta" }, { name: "Atención híbrida" }],
+  },
+  {
+    slug: "procedimientos",
+    name: "Procedimientos",
+    tagline: "Precisión guiada por ecografía.",
+    icon: "crosshair",
+    size: "sm",
+    services: [
+      { name: "Infiltraciones ecoguiadas por reumatólogo" },
+      { name: "Infiltraciones ecoguiadas por radiólogo" },
+      { name: "Videocapilaroscopía" },
+    ],
+  },
+  {
+    slug: "consulta-externa",
+    name: "Consulta externa",
+    tagline: "Un equipo completo alrededor de ti.",
+    icon: "stethoscope",
+    size: "md",
+    services: [
+      { name: "Reumatología" },
+      { name: "Medicina general" },
+      { name: "Psicología" },
+      { name: "Nutrición" },
+      { name: "Terapia ocupacional" },
+      { name: "Terapia física" },
+    ],
+  },
+];

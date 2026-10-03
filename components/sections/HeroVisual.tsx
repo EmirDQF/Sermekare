@@ -1,0 +1,108 @@
+"use client";
+
+import { useRef, type ReactNode } from "react";
+import Image from "next/image";
+import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
+import { BadgeCheck, Star, Users, Video } from "lucide-react";
+import { JointMotif } from "@/components/shared/JointMotif";
+import { homeImages } from "@/data/home";
+import { site } from "@/data/site";
+import { formatStat } from "@/lib/format";
+import { cn } from "@/lib/utils";
+
+interface FloatingCardProps {
+  children: ReactNode;
+  className: string;
+  y: MotionValue<number>;
+  delay: number;
+}
+
+function FloatingCard({ children, className, y, delay }: FloatingCardProps) {
+  return (
+    <motion.div
+      style={{ y }}
+      initial={{ opacity: 0, scale: 0.94 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}
+      className={cn("glass absolute flex items-center gap-3 rounded-2xl px-4 py-3 shadow-lift", className)}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function CardIcon({ children }: { children: ReactNode }) {
+  return (
+    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-teal-tint text-primary [&_svg]:size-5">
+      {children}
+    </span>
+  );
+}
+
+/** Foto del médico en forma orgánica + motivo de la articulación + tarjetas glass con parallax suave. */
+export function HeroVisual() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const ySlow = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const yFast = useTransform(scrollYProgress, [0, 1], [0, -90]);
+  const yJoint = useTransform(scrollYProgress, [0, 1], [0, 60]);
+
+  return (
+    <div ref={ref} className="relative mx-auto aspect-[4/4.6] w-full max-w-[34rem]">
+      <div aria-hidden className="absolute inset-[6%] rounded-[46%_54%_52%_48%/50%_44%_56%_50%] bg-gradient-to-br from-teal/25 via-sky-400/10 to-navy-2/20" />
+      <div className="absolute inset-[9%] overflow-hidden rounded-[44%_56%_50%_50%/52%_46%_54%_48%] shadow-lift">
+        <Image
+          src={homeImages.hero}
+          alt={homeImages.heroAlt}
+          fill
+          preload
+          fetchPriority="high"
+          sizes="(min-width: 1024px) 520px, 90vw"
+          className="object-cover object-top"
+        />
+      </div>
+
+      <motion.div style={{ y: yJoint }} className="absolute -bottom-2 -left-3 w-[30%] sm:-left-6">
+        <JointMotif className="h-auto w-full drop-shadow-xl" label="Articulación que pasa de inflamada a aliviada" />
+      </motion.div>
+
+      <FloatingCard y={ySlow} delay={0.5} className="left-0 top-[10%] sm:-left-6">
+        <CardIcon>
+          <Users aria-hidden strokeWidth={1.75} />
+        </CardIcon>
+        <span>
+          <span className="block font-display text-lg font-extrabold leading-tight text-heading">
+            {formatStat(site.stats.consultations, site.stats.consultations.value)}
+          </span>
+          <span className="block text-sm text-muted">consultas realizadas</span>
+        </span>
+      </FloatingCard>
+
+      <FloatingCard y={yFast} delay={0.65} className="right-0 top-[4%] sm:-right-4">
+        <Star aria-hidden className="size-6 fill-amber-400 text-amber-500" />
+        <span>
+          <span className="block font-display text-lg font-extrabold leading-tight text-heading">
+            {formatStat(site.stats.rating, site.stats.rating.value)}
+          </span>
+          <span className="block text-sm text-muted">calificación</span>
+        </span>
+      </FloatingCard>
+
+      <FloatingCard y={ySlow} delay={0.8} className="-right-1 top-[52%] sm:-right-8">
+        <CardIcon>
+          <Video aria-hidden strokeWidth={1.75} />
+        </CardIcon>
+        <span className="max-w-[9.5rem] text-sm font-semibold leading-snug text-heading">
+          Atención presencial y teleconsulta
+        </span>
+      </FloatingCard>
+
+      <FloatingCard y={yFast} delay={0.95} className="bottom-[4%] right-[12%]">
+        <CardIcon>
+          <BadgeCheck aria-hidden strokeWidth={1.75} />
+        </CardIcon>
+        <span className="text-sm font-semibold text-heading">Especialistas con RNE</span>
+      </FloatingCard>
+    </div>
+  );
+}

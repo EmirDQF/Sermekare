@@ -1,0 +1,147 @@
+import Link from "next/link";
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Logo } from "@/components/layout/Logo";
+import { NewsletterForm } from "@/components/layout/NewsletterForm";
+import { ComplaintsBookIcon, SocialIcon } from "@/components/shared/BrandIcons";
+import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
+import { doctors } from "@/data/doctors";
+import { legalLinks } from "@/data/navigation";
+import { servicePillars } from "@/data/services";
+import { site } from "@/data/site";
+import { specialties } from "@/data/specialties";
+
+const LINK = "inline-flex min-h-10 items-center text-slate-300 transition-colors hover:text-white";
+
+interface FooterColumnProps {
+  title: string;
+  links: readonly { label: string; href: string }[];
+}
+
+function FooterColumn({ title, links }: FooterColumnProps) {
+  return (
+    <div>
+      <h2 className="font-display text-base font-bold text-white">{title}</h2>
+      <ul className="mt-3">
+        {links.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className={LINK}>
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export function Footer() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="bg-navy pb-24 text-slate-300 md:pb-0 dark:bg-[#071222]">
+      <div className="container-page grid gap-12 pt-16 lg:grid-cols-[1.2fr_2fr] lg:pt-20">
+        <div>
+          <Logo tone="inverted" showTagline />
+          <p className="mt-5 max-w-sm">
+            {site.legalTagline} en {site.address.district}, Lima. {site.slogan}: diagnóstico oportuno, tratamiento
+            moderno y un seguimiento cercano.
+          </p>
+          <ul className="mt-6 flex gap-2" aria-label="Redes sociales">
+            {site.socials.map((social) => (
+              <li key={social.network}>
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${site.name} en ${social.label}`}
+                  className="grid size-12 place-items-center rounded-full border border-white/15 text-white transition-colors hover:border-teal hover:text-teal"
+                >
+                  <SocialIcon network={social.network} className="size-5" />
+                </a>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 max-w-sm rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+            <p className="font-display text-lg font-bold text-white">Guía de salud articular</p>
+            <p className="mt-1 mb-4 text-sm">Consejos prácticos de nuestros especialistas, una vez al mes.</p>
+            <NewsletterForm />
+          </div>
+        </div>
+
+        <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
+          <FooterColumn
+            title="Especialidades"
+            links={specialties.map((s) => ({ label: s.shortName, href: `/especialidades/${s.slug}` }))}
+          />
+          <FooterColumn
+            title="Servicios"
+            links={servicePillars.map((p) => ({ label: p.name, href: `/servicios/${p.slug}` }))}
+          />
+          <FooterColumn
+            title="Directorio médico"
+            links={[
+              ...doctors.map((d) => ({ label: d.name.split(" ").slice(0, 3).join(" "), href: `/staff/${d.slug}` })),
+              { label: "Ver todo el staff", href: "/staff" },
+            ]}
+          />
+          <div>
+            <h2 className="font-display text-base font-bold text-white">Sede {site.address.district}</h2>
+            <ul className="mt-3 space-y-3">
+              <li className="flex gap-2.5">
+                <MapPin aria-hidden strokeWidth={1.75} className="mt-1 size-5 shrink-0 text-teal" />
+                <a href={site.address.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                  {site.address.street}, {site.address.district}, {site.address.city}
+                </a>
+              </li>
+              <li className="flex gap-2.5">
+                <Clock aria-hidden strokeWidth={1.75} className="mt-1 size-5 shrink-0 text-teal" />
+                <span>
+                  {site.hours.label}
+                  <br />
+                  {site.hours.closedLabel}
+                </span>
+              </li>
+              <li className="flex gap-2.5">
+                <Phone aria-hidden strokeWidth={1.75} className="mt-1 size-5 shrink-0 text-teal" />
+                <a href={`tel:${site.phone.tel}`} className="hover:text-white">
+                  {site.phone.display}
+                </a>
+              </li>
+              <li className="flex gap-2.5">
+                <Mail aria-hidden strokeWidth={1.75} className="mt-1 size-5 shrink-0 text-teal" />
+                <a href={`mailto:${site.email}`} className="break-all hover:text-white">
+                  {site.email}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="container-page mt-14 border-t border-white/10 py-8">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <Link
+            href="/libro-de-reclamaciones"
+            className="inline-flex w-fit items-center gap-3 rounded-2xl border border-white/15 px-4 py-2.5 text-white transition-colors hover:border-teal"
+          >
+            <ComplaintsBookIcon className="h-7 w-9" />
+            <span className="font-display font-semibold">Libro de Reclamaciones</span>
+          </Link>
+          <ul className="flex flex-wrap gap-x-6">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className={LINK}>
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <MedicalDisclaimer tone="inverted" className="mt-6" />
+        <p className="mt-6 text-sm text-slate-400">
+          © {year} {site.name} — {site.legalTagline}. Todos los derechos reservados.
+        </p>
+      </div>
+    </footer>
+  );
+}

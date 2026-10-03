@@ -1,0 +1,132 @@
+import type { BlogPost, Insurer, PainPoint } from "@/types/medical";
+
+const unsplash = (id: string, w = 800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=75`;
+
+/** Fotos de la Home. PROVISIONAL: ver public/images/README.md */
+export const homeImages = {
+  hero: unsplash("1594824476967-48c8b964273f", 1000),
+  heroAlt: "Reumatóloga de SERMEKARE sonriendo con uniforme clínico",
+  careJourney: unsplash("1581056771107-24ca5f033842", 900),
+  careJourneyAlt: "Médico conversando con una paciente adulta mayor durante la consulta",
+  guided: unsplash("1666214280557-f1b5022eb634", 1000),
+  guidedAlt: "Especialista revisando imágenes de ecografía en un monitor",
+  telemedicine: unsplash("1551836022-d5d88e9218df", 900),
+  telemedicineAlt: "Profesional en una videollamada desde su laptop",
+  video: unsplash("1588776814546-1ffcf47267a5", 1200),
+  videoAlt: "Médico explicando una radiografía en el negatoscopio",
+} as const;
+
+export const painPoints: readonly PainPoint[] = [
+  {
+    id: "manos",
+    quote: "Mis manos amanecen rígidas",
+    context: "Si dura más de 30 minutos, puede ser inflamación.",
+    target: { kind: "zone", zone: "manos" },
+  },
+  {
+    id: "espalda",
+    quote: "Me duele la espalda después de un día frente a la computadora",
+    context: "El dolor postural tiene solución con un plan guiado.",
+    target: { kind: "zone", zone: "espalda" },
+  },
+  {
+    id: "corriendo",
+    quote: "Me lesioné corriendo y no mejora",
+    context: "Vemos la lesión por ecografía en la misma consulta.",
+    target: { kind: "zone", zone: "rodillas" },
+  },
+  {
+    id: "hinchazon",
+    quote: "Mis articulaciones se hinchan sin razón",
+    context: "Detectar a tiempo una enfermedad autoinmune cambia su evolución.",
+    target: { kind: "condition", slug: "artritis-reumatoide" },
+  },
+  {
+    id: "mama",
+    quote: "Quiero cuidar los huesos de mi mamá",
+    context: "Densitometría y prevención de caídas en una sola visita.",
+    target: { kind: "condition", slug: "osteoporosis" },
+  },
+];
+
+// PROVISIONAL: logos genéricos. No usar marcas reales hasta firmar convenios.
+export const insurers: readonly Insurer[] = [
+  { id: "a", label: "Aseguradora A", kind: "seguro" },
+  { id: "b", label: "EPS B", kind: "eps" },
+  { id: "c", label: "Seguro de salud C", kind: "seguro" },
+  { id: "d", label: "EPS D", kind: "eps" },
+  { id: "e", label: "Aseguradora E", kind: "seguro" },
+  { id: "f", label: "Red de laboratorios aliada", kind: "alianza" },
+  { id: "g", label: "Programa empresas", kind: "alianza" },
+  { id: "h", label: "Clínica aliada", kind: "alianza" },
+];
+
+// Metadatos del blog (el contenido MDX llega en el bloque 4).
+export const blogPosts: readonly BlogPost[] = [
+  {
+    slug: "infiltraciones-guiadas-vs-a-ciegas",
+    title: "Infiltración guiada por ecografía vs a ciegas: ¿qué cambia para ti?",
+    excerpt: "La precisión importa: te explicamos por qué ver la articulación en tiempo real mejora la experiencia y los resultados.",
+    category: "Procedimientos",
+    readingMinutes: 6,
+    authorSlug: "valeria-quintana",
+    publishedAt: "2026-09-22",
+    cover: unsplash("1666214280391-8ff5bd3c0bf0"),
+    coverAlt: "Dos especialistas revisando imágenes médicas en monitores",
+  },
+  {
+    slug: "dolor-lumbar-trabajo-oficina",
+    title: "Dolor lumbar por trabajo de oficina: 5 señales para consultar",
+    excerpt: "Sentarte 8 horas pasa factura. Aprende a distinguir un dolor postural de uno que necesita evaluación.",
+    category: "Dolor de espalda",
+    readingMinutes: 5,
+    authorSlug: "diego-paredes",
+    publishedAt: "2026-09-08",
+    cover: unsplash("1573496359142-b8d87734a5a2"),
+    coverAlt: "Profesional sentada en su oficina",
+  },
+  {
+    slug: "lesiones-en-corredores",
+    title: "Lesiones en corredores: cuándo parar y cómo volver a correr",
+    excerpt: "Rodilla, tendón de Aquiles y fascia plantar: guía práctica para no convertir una molestia en lesión crónica.",
+    category: "Deporte",
+    readingMinutes: 7,
+    authorSlug: "diego-paredes",
+    publishedAt: "2026-08-25",
+    cover: unsplash("1476480862126-209bfaa8edc8"),
+    coverAlt: "Piernas de una persona corriendo escaleras arriba",
+  },
+  {
+    slug: "dolor-de-cuello",
+    title: "Dolor de cuello: postura, estrés y cuándo preocuparte",
+    excerpt: "Ejercicios simples, pausas activas y las señales de alerta que no debes ignorar.",
+    category: "Dolor de cuello",
+    readingMinutes: 5,
+    authorSlug: "diego-paredes",
+    publishedAt: "2026-08-11",
+    cover: unsplash("1576091160550-2173dba999ef"),
+    coverAlt: "Manos sobre un teclado junto a un estetoscopio",
+  },
+  {
+    slug: "caidas-en-el-adulto-mayor",
+    title: "Caídas en el adulto mayor: cómo proteger los huesos de tus padres",
+    excerpt: "Osteoporosis, densitometría y cambios en casa que reducen el riesgo de fracturas.",
+    category: "Osteoporosis",
+    readingMinutes: 6,
+    authorSlug: "carmen-ugarte",
+    publishedAt: "2026-07-28",
+    cover: unsplash("1631217868264-e5b90bb7e133"),
+    coverAlt: "Doctora conversando con una paciente adulta mayor",
+  },
+  {
+    slug: "gota-y-dieta",
+    title: "Gota y dieta: qué comer (y qué evitar) para prevenir crisis",
+    excerpt: "Mitos y verdades sobre el ácido úrico, con recomendaciones prácticas de nuestro equipo.",
+    category: "Gota",
+    readingMinutes: 6,
+    authorSlug: "carmen-ugarte",
+    publishedAt: "2026-07-14",
+    cover: unsplash("1505751172876-fa1923c5c528"),
+    coverAlt: "Estetoscopio sobre una superficie clara",
+  },
+];

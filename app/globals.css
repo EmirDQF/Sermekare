@@ -1,26 +1,317 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ==========================================================================
+   Design tokens — SERMEKARE
+   Claro por defecto; oscuro vía [data-theme="dark"] en <html>.
+   ========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --background-alt: #f1f5f9;
+  --foreground: #0b192c;
+  --heading: #0b192c;
+  --muted: #334155;
+  --subtle: #64748b;
+  --card: rgb(255 255 255 / 0.8);
+  --card-solid: #ffffff;
+  --border: rgb(203 213 225 / 0.6);
+  --border-strong: #cbd5e1;
+  /* Teal decorativo (iconos, halos) y teal fuerte (botones / texto: AA) */
+  --teal: #00a896;
+  --teal-strong: #00766a;
+  --teal-strong-hover: #005f55;
+  --teal-tint: rgb(0 168 150 / 0.1);
+  --on-primary: #ffffff;
+  --link: #0369a1;
+  --coral: #f97362;
+  --coral-tint: rgb(249 115 98 / 0.12);
+  --ring: #0284c7;
+  --joint-bone: #e2e8f0;
+  --joint-bone-stroke: #94a3b8;
+  --shadow-color: 215 40% 20%;
+  --grain-opacity: 0.035;
+}
+
+[data-theme="dark"] {
+  --background: #0b192c;
+  --background-alt: #0f2036;
+  --foreground: #e6edf5;
+  --heading: #f8fafc;
+  --muted: #b8c4d4;
+  --subtle: #8fa0b6;
+  --card: rgb(19 36 59 / 0.82);
+  --card-solid: #13243b;
+  --border: rgb(71 95 128 / 0.45);
+  --border-strong: #334a68;
+  --teal: #2dd4bf;
+  --teal-strong: #2dd4bf;
+  --teal-strong-hover: #5eead4;
+  --teal-tint: rgb(45 212 191 / 0.12);
+  --on-primary: #0b192c;
+  --link: #7dd3fc;
+  --coral: #fb8a7b;
+  --coral-tint: rgb(251 138 123 / 0.14);
+  --ring: #7dd3fc;
+  --joint-bone: #1e3e62;
+  --joint-bone-stroke: #5b7aa0;
+  --shadow-color: 220 60% 3%;
+  --grain-opacity: 0.05;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-bg: var(--background);
+  --color-bg-alt: var(--background-alt);
+  --color-fg: var(--foreground);
+  --color-heading: var(--heading);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-card: var(--card);
+  --color-card-solid: var(--card-solid);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-teal: var(--teal);
+  --color-primary: var(--teal-strong);
+  --color-primary-hover: var(--teal-strong-hover);
+  --color-on-primary: var(--on-primary);
+  --color-teal-tint: var(--teal-tint);
+  --color-link: var(--link);
+  --color-coral: var(--coral);
+  --color-coral-tint: var(--coral-tint);
+  --color-navy: #0b192c;
+  --color-navy-2: #1e3e62;
+  --color-navy-3: #13243b;
+  --color-ring: var(--ring);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.5rem;
+  --radius-xl2: 2rem;
+
+  --shadow-soft: 0 1px 2px hsl(var(--shadow-color) / 0.06), 0 4px 12px hsl(var(--shadow-color) / 0.06),
+    0 16px 40px -12px hsl(var(--shadow-color) / 0.12);
+  --shadow-lift: 0 2px 4px hsl(var(--shadow-color) / 0.06), 0 12px 24px hsl(var(--shadow-color) / 0.1),
+    0 32px 64px -16px hsl(var(--shadow-color) / 0.2);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-mesh: mesh 22s ease-in-out infinite alternate;
+  --animate-fade-in: fade-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-dialog-in: dialog-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-joint-pulse: joint-pulse 2.6s ease-in-out infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes dialog-in {
+    from { opacity: 0; transform: translate(-50%, -48%) scale(0.97); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes joint-pulse {
+    0%, 100% { transform: scale(0.92); opacity: 0.55; }
+    50% { transform: scale(1.08); opacity: 0.95; }
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(0.85); opacity: 0.7; }
+    80%, 100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes mesh {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(4%, -3%, 0) scale(1.08); }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Base
+   ========================================================================== */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (min-width: 768px) {
+    body { font-size: 1.125rem; }
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--heading);
+    letter-spacing: -0.025em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  ::selection {
+    background: var(--teal-tint);
+    color: var(--heading);
+  }
+
+  /* Grano sutil para dar profundidad */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ==========================================================================
+   Utilidades de marca
+   ========================================================================== */
+@utility container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (min-width: 640px) { padding-inline: 1.5rem; }
+  @media (min-width: 1024px) { padding-inline: 2rem; }
+}
+
+@utility section-y {
+  padding-block: clamp(4rem, 9vw, 7.5rem);
+}
+
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.35rem, 5.4vw + 0.5rem, 4.5rem);
+  letter-spacing: -0.035em;
+  line-height: 1.04;
+}
+
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3vw + 0.75rem, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 0.6vw + 1rem, 1.45rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+@utility glass {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+}
+
+/* Borde con gradiente sutil para tarjetas destacadas */
+@utility gradient-border {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, rgb(0 168 150 / 0.55), rgb(2 132 199 / 0.25) 45%, transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* Fondo mesh animado muy suave */
+@utility mesh-bg {
+  position: absolute;
+  inset: -20%;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 35% at 20% 25%, rgb(0 168 150 / 0.16), transparent 70%),
+    radial-gradient(35% 30% at 80% 20%, rgb(2 132 199 / 0.12), transparent 70%),
+    radial-gradient(45% 40% at 70% 85%, rgb(30 62 98 / 0.1), transparent 70%);
+  animation: var(--animate-mesh);
+}
+
+/* Marquee: pausa con hover/foco o con data-paused */
+.marquee-track {
+  animation: var(--animate-marquee);
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee[data-paused="true"] .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Lenis (smooth scroll) */
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* Zonas del mapa corporal: pulso centrado en su propio origen */
+.joint-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: var(--animate-joint-pulse);
+}
+
+/* Motivo de la articulación en bucle (separadores / carga): alterna dolor ↔ alivio */
+@keyframes joint-swap {
+  0%, 35% { opacity: 1; }
+  65%, 100% { opacity: 0; }
+}
+.joint-swap { animation: joint-swap 5s ease-in-out infinite alternate; }
+.joint-swap-reverse { animation-direction: alternate-reverse; }
+
+/* Sin barra de scroll en carriles horizontales (tabs/chips) */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ==========================================================================
+   Movimiento reducido
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track { animation: none; }
 }
