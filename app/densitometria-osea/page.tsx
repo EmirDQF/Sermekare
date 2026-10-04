@@ -69,7 +69,7 @@ export default function DensitometryPage() {
               <span aria-hidden className="size-1.5 rounded-full bg-teal" /> Nuevo en {site.name}
             </p>
             <h1 id="dxa-title" className="text-display mt-4 text-heading">
-              <KineticText text="Densitometría ósea en Lima" accent="Densitometría ósea" />
+              <KineticText text="Densitometría ósea en Lima" accent="Densitometría ósea" priority />
             </h1>
             <p className="mt-6 max-w-xl text-lg text-muted sm:text-xl">
               {densitometry.whatIs} {densitometry.technicalName} {densitometry.measuredAt}

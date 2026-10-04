@@ -10,9 +10,10 @@ const container: Variants = {
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
 };
 
+/** Sin opacity 0: el h1 cuenta para el LCP desde el primer pintado (ver KineticText `priority`). */
 const word: Variants = {
-  hidden: { opacity: 0, y: "0.45em" },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { y: "0.45em", filter: "blur(8px)" },
+  visible: { y: 0, filter: "blur(0px)", transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
 };
 
 interface HeroHeadlineProps {

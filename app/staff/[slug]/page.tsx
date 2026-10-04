@@ -83,7 +83,7 @@ export default async function DoctorPage({ params }: PageProps<"/staff/[slug]">)
             <Breadcrumbs items={crumbs} />
             <p className="mt-6 font-semibold text-primary">{doctor.title}</p>
             <h1 id="medico-title" className="text-display mt-2 text-heading">
-              <KineticText text={doctor.name} />
+              <KineticText text={doctor.name} priority />
             </h1>
             <p className="mt-4 text-lg text-muted">{doctor.specialty}</p>
             <a

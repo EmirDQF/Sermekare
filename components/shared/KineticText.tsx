@@ -17,6 +17,15 @@ const word: Variants = {
   visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: EASE } },
 };
 
+/**
+ * Títulos sobre el pliegue (h1): sin partir de opacity 0, porque Chrome no cuenta el texto invisible
+ * como pintado y el LCP se retrasaba hasta el final de la animación (~1 s). El texto nace desenfocado.
+ */
+const priorityWord: Variants = {
+  hidden: { y: "0.35em", filter: "blur(8px)" },
+  visible: { y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: EASE } },
+};
+
 const VIEWPORT = { once: true, amount: 0.6 } as const;
 
 interface KineticTextProps {
@@ -26,13 +35,15 @@ interface KineticTextProps {
   /** inverted: gradiente claro para fondos navy. */
   tone?: "default" | "inverted";
   className?: string;
+  /** Título visible al cargar (h1 de cabecera): anima al montar y no retrasa el LCP. */
+  priority?: boolean;
 }
 
 /**
  * Tipografía cinética: las palabras entran con blur escalonado al aparecer en pantalla.
  * El texto completo queda en el HTML (SEO y lectores de pantalla); sin JS se ve igual (noscript en layout).
  */
-export function KineticText({ text, accent, tone = "default", className }: KineticTextProps) {
+export function KineticText({ text, accent, tone = "default", className, priority = false }: KineticTextProps) {
   const words = splitKineticWords(text, accent);
   const accentClass = tone === "inverted" ? "text-gradient-teal-light" : "text-gradient-teal";
 
@@ -42,12 +53,11 @@ export function KineticText({ text, accent, tone = "default", className }: Kinet
       className={className}
       variants={container}
       initial="hidden"
-      whileInView="visible"
-      viewport={VIEWPORT}
+      {...(priority ? { animate: "visible" } : { whileInView: "visible", viewport: VIEWPORT })}
     >
       {words.map((item, index) => (
         <Fragment key={`${item.word}-${index}`}>
-          <motion.span variants={word} className={cn("inline-block", item.accent && accentClass)}>
+          <motion.span variants={priority ? priorityWord : word} className={cn("inline-block", item.accent && accentClass)}>
             {item.word}
           </motion.span>
           {index < words.length - 1 ? " " : null}

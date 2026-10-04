@@ -28,7 +28,7 @@ export function PageHero({ id, crumbs, eyebrow, title, accent, lead, actions, vi
             <span aria-hidden className="size-1.5 rounded-full bg-teal" /> {eyebrow}
           </p>
           <h1 id={id} className="text-display mt-4 hyphens-auto text-heading [overflow-wrap:anywhere]">
-            <KineticText text={title} accent={accent} />
+            <KineticText text={title} accent={accent} priority />
           </h1>
           <div className="mt-6 max-w-2xl text-lg text-muted sm:text-xl">{lead}</div>
           {actions ? <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null}

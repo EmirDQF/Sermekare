@@ -42,7 +42,6 @@ export function LocationCTA() {
             target="_blank"
             rel="noopener noreferrer"
             className="group relative block min-h-72 overflow-hidden rounded-[2rem] border border-line shadow-soft"
-            aria-label={`Abrir ${site.address.street}, ${site.address.district} en Google Maps`}
           >
             <span className="absolute inset-0 [perspective:1100px]">
               <span className="absolute inset-[-12%] origin-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] [transform:rotateX(38deg)_rotateZ(-10deg)] group-hover:[transform:rotateX(30deg)_rotateZ(-6deg)]">
@@ -62,6 +61,8 @@ export function LocationCTA() {
                 <span className="block text-sm text-muted">
                   {site.address.street}, {site.address.district}, {site.address.city}
                 </span>
+                {/* El nombre accesible empieza por el texto visible (WCAG 2.5.3) y avisa de la pestaña nueva. */}
+                <span className="sr-only"> (abrir en Google Maps, pestaña nueva)</span>
               </span>
               <ArrowUpRight aria-hidden className="size-5 shrink-0 text-primary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
             </span>

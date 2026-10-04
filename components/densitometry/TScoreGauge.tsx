@@ -56,7 +56,7 @@ function readingFor(mode: ScoreMode, score: number): Reading {
   }
   const category = classifyTScore(score);
   const state = densitometry.states.find((item) => item.id === category) ?? densitometry.states[0];
-  const tone = category === "normal" ? "text-primary" : category === "osteopenia" ? "text-[#a8670f] dark:text-[#f2b65a]" : "text-coral";
+  const tone = category === "normal" ? "text-primary" : category === "osteopenia" ? "text-[#955a0c] dark:text-[#f2b65a]" : "text-coral";
   return { label: state.label, explanation: state.explanation, tone };
 }
 

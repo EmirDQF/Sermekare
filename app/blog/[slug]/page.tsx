@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: PageProps<"/blog/[slug]">
           <Breadcrumbs items={crumbs} />
           <p className="mt-6 inline-flex rounded-full bg-teal-tint px-3.5 py-1.5 text-sm font-semibold text-primary">{post.category}</p>
           <h1 id="articulo-title" className="text-h2 mt-4 text-heading sm:text-[clamp(2.2rem,4vw,3.4rem)]">
-            <KineticText text={post.title} />
+            <KineticText text={post.title} priority />
           </h1>
           <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted">
             <span>

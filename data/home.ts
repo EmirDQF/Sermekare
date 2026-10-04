@@ -6,14 +6,14 @@ const unsplash = (id: string, w = 800) => `https://images.unsplash.com/photo-${i
 export const homeImages = {
   hero: unsplash("1594824476967-48c8b964273f", 1000),
   heroAlt: "Reumatóloga de SERMEKARE sonriendo con uniforme clínico",
-  careJourney: unsplash("1581056771107-24ca5f033842", 900),
-  careJourneyAlt: "Médico conversando con una paciente adulta mayor durante la consulta",
+  careJourney: unsplash("1758691462858-f1286e5daf40", 900),
+  careJourneyAlt: "Médica conversando con un paciente adulto mayor en el consultorio",
   guided: unsplash("1666214280557-f1b5022eb634", 1000),
   guidedAlt: "Especialista revisando imágenes de ecografía en un monitor",
   telemedicine: unsplash("1551836022-d5d88e9218df", 900),
   telemedicineAlt: "Profesional en una videollamada desde su laptop",
-  video: unsplash("1588776814546-1ffcf47267a5", 1200),
-  videoAlt: "Médico explicando una radiografía en el negatoscopio",
+  video: unsplash("1649751361457-01d3a696c7e6", 1200),
+  videoAlt: "Especialista examinando la rodilla de un paciente en la camilla",
 } as const;
 
 export const painPoints: readonly PainPoint[] = [
