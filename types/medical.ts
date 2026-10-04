@@ -277,3 +277,21 @@ export interface DensitometryContent {
   disclaimer: string;
   hud: readonly string[];
 }
+
+/* ---------- Detalle de páginas internas (servicios y tratamientos) ---------- */
+
+export interface ServiceDetail {
+  intro: string;
+  highlights: readonly string[];
+  /** Descripción breve de cada subservicio, por su nombre exacto en data/services.ts. */
+  serviceNotes: Readonly<Record<string, string>>;
+  relatedTreatments: readonly string[];
+}
+
+export interface TreatmentDetail {
+  pillarSlug: string;
+  kind: "therapeutic" | "diagnostic";
+  procedure: readonly string[];
+  /** Cuidados posteriores (y preparación, cuando aplica). */
+  aftercare: readonly string[];
+}

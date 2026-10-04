@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Clock, ShieldCheck, Target } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Clock, ShieldCheck, Target } from "lucide-react";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { KineticText } from "@/components/shared/KineticText";
@@ -24,6 +25,8 @@ const DESCRIPTION =
 
 const CRUMBS = [
   { label: "Inicio", href: "/" },
+  { label: "Servicios", href: "/servicios" },
+  { label: "Apoyo diagnóstico", href: "/servicios/apoyo-diagnostico" },
   { label: "Densitometría ósea", href: DENSITOMETRY_PATH },
 ] as const;
 
@@ -188,6 +191,12 @@ export default function DensitometryPage() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href="/servicios/apoyo-diagnostico"
+                className="mt-4 inline-flex min-h-12 items-center gap-2 font-display font-semibold text-primary hover:underline"
+              >
+                Ver apoyo diagnóstico <ArrowRight aria-hidden strokeWidth={1.75} className="size-5" />
+              </Link>
             </div>
           </div>
           <Accordion type="single" collapsible className="space-y-3">

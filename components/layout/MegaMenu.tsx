@@ -87,8 +87,13 @@ export function ServicesMenu() {
         ))}
         <li>
           <NavigationMenu.Link asChild>
-            <Link href="/servicios" className={`${ITEM_LINK} flex h-full items-center gap-2 font-display font-semibold text-primary`}>
+            <Link href="/servicios" className={`${ITEM_LINK} flex items-center gap-2 font-display font-semibold text-primary`}>
               Ver todos los servicios <ArrowRight aria-hidden className="size-4" />
+            </Link>
+          </NavigationMenu.Link>
+          <NavigationMenu.Link asChild>
+            <Link href="/tratamientos" className={`${ITEM_LINK} flex items-center gap-2 font-display font-semibold text-primary`}>
+              Ver tratamientos <ArrowRight aria-hidden className="size-4" />
             </Link>
           </NavigationMenu.Link>
         </li>

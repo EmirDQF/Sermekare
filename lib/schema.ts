@@ -86,11 +86,13 @@ interface ProcedureInfo {
   followup: string;
 }
 
-/** Procedimiento diagnóstico (p. ej. densitometría ósea) ofrecido por la clínica. */
-export function diagnosticProcedureSchema(info: ProcedureInfo): JsonLdObject {
+type ProcedureType = "DiagnosticProcedure" | "TherapeuticProcedure";
+
+/** Procedimiento médico (diagnóstico o terapéutico) ofrecido por la clínica. */
+export function procedureSchema(type: ProcedureType, info: ProcedureInfo): JsonLdObject {
   return {
     "@context": "https://schema.org",
-    "@type": "DiagnosticProcedure",
+    "@type": type,
     "@id": `${site.url}${info.path}#procedure`,
     name: info.name,
     alternateName: info.alternateName,
@@ -102,5 +104,37 @@ export function diagnosticProcedureSchema(info: ProcedureInfo): JsonLdObject {
     preparation: info.preparation,
     followup: info.followup,
     availableAt: { "@id": `${site.url}/#clinic` },
+  };
+}
+
+/** Procedimiento diagnóstico (p. ej. densitometría ósea). */
+export function diagnosticProcedureSchema(info: ProcedureInfo): JsonLdObject {
+  return procedureSchema("DiagnosticProcedure", info);
+}
+
+interface ServiceInfo {
+  name: string;
+  description: string;
+  path: string;
+  offers: readonly string[];
+}
+
+/** Servicio de la clínica (pilar) con su catálogo de subservicios. */
+export function medicalServiceSchema(info: ServiceInfo): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${site.url}${info.path}#service`,
+    name: info.name,
+    description: info.description,
+    url: `${site.url}${info.path}`,
+    serviceType: info.name,
+    areaServed: { "@type": "City", name: "Lima" },
+    provider: { "@id": `${site.url}/#clinic` },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: info.name,
+      itemListElement: info.offers.map((offer) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: offer } })),
+    },
   };
 }

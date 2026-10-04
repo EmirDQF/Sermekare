@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { breadcrumbSchema, diagnosticProcedureSchema } from "@/lib/schema";
+import { breadcrumbSchema, diagnosticProcedureSchema, medicalServiceSchema, procedureSchema } from "@/lib/schema";
 import { site } from "@/data/site";
 
 describe("breadcrumbSchema", () => {
@@ -30,5 +30,28 @@ describe("diagnosticProcedureSchema", () => {
     expect(schema["@type"]).toBe("DiagnosticProcedure");
     expect(schema.procedureType).toBe("https://schema.org/NoninvasiveProcedure");
     expect(schema.availableAt).toEqual({ "@id": `${site.url}/#clinic` });
+  });
+});
+
+describe("procedureSchema and medicalServiceSchema", () => {
+  it("marks therapeutic procedures with their own type", () => {
+    const schema = procedureSchema("TherapeuticProcedure", {
+      name: "Infiltración",
+      alternateName: [],
+      description: "d",
+      path: "/tratamientos/infiltraciones-ecoguiadas",
+      bodyLocation: "Articulaciones",
+      howPerformed: "h",
+      preparation: "p",
+      followup: "f",
+    });
+    expect(schema["@type"]).toBe("TherapeuticProcedure");
+  });
+
+  it("lists every sub-service as an offer of the clinic", () => {
+    const schema = medicalServiceSchema({ name: "Telemedicina", description: "d", path: "/servicios/telemedicina", offers: ["A", "B"] });
+    const catalog = schema.hasOfferCatalog as { itemListElement: { itemOffered: { name: string } }[] };
+    expect(catalog.itemListElement.map((item) => item.itemOffered.name)).toEqual(["A", "B"]);
+    expect(schema.provider).toEqual({ "@id": `${site.url}/#clinic` });
   });
 });

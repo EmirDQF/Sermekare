@@ -82,6 +82,7 @@ export function Footer() {
             links={[
               ...servicePillars.map((p) => ({ label: p.name, href: `/servicios/${p.slug}` })),
               { label: "Densitometría ósea", href: DENSITOMETRY_PATH },
+              { label: "Tratamientos", href: "/tratamientos" },
             ]}
           />
           <FooterColumn
