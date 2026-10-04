@@ -131,6 +131,11 @@ const FRAGMENT = /* glsl */ `
       over(acc, uCoral, smoothstep(0.004, 0.0, abs(rg - 0.08)) * dashed * 0.65 * blind);
     }
 
+    // La telemetría del DOM (esquinas superiores) queda debajo del lienzo: no dibujar encima.
+    float hudRight = smoothstep(0.64, 0.68, vUv.x) * smoothstep(0.66, 0.7, vUv.y);
+    float hudLeft = (1.0 - smoothstep(0.38, 0.42, vUv.x)) * smoothstep(0.8, 0.84, vUv.y);
+    acc *= 1.0 - max(hudRight, hudLeft);
+
     gl_FragColor = vec4(acc.rgb / max(acc.a, 1e-4), acc.a);
     #include <colorspace_fragment>
   }
