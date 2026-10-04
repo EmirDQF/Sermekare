@@ -56,3 +56,51 @@ export function faqSchema(items: readonly FAQItem[]): JsonLdObject {
     })),
   };
 }
+
+interface Crumb {
+  label: string;
+  href: string;
+}
+
+export function breadcrumbSchema(items: readonly Crumb[]): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.label,
+      item: `${site.url}${item.href}`,
+    })),
+  };
+}
+
+interface ProcedureInfo {
+  name: string;
+  alternateName: readonly string[];
+  description: string;
+  path: string;
+  bodyLocation: string;
+  howPerformed: string;
+  preparation: string;
+  followup: string;
+}
+
+/** Procedimiento diagnóstico (p. ej. densitometría ósea) ofrecido por la clínica. */
+export function diagnosticProcedureSchema(info: ProcedureInfo): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DiagnosticProcedure",
+    "@id": `${site.url}${info.path}#procedure`,
+    name: info.name,
+    alternateName: info.alternateName,
+    description: info.description,
+    url: `${site.url}${info.path}`,
+    procedureType: "https://schema.org/NoninvasiveProcedure",
+    bodyLocation: info.bodyLocation,
+    howPerformed: info.howPerformed,
+    preparation: info.preparation,
+    followup: info.followup,
+    availableAt: { "@id": `${site.url}/#clinic` },
+  };
+}

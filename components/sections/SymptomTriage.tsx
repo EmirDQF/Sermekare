@@ -16,6 +16,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { bodyZones, getBodyZone } from "@/data/bodyZones";
 import { getSpecialty, specialties } from "@/data/specialties";
 import { getDoctor } from "@/data/doctors";
+import { DENSITOMETRY_PATH } from "@/data/densitometry";
 import { TRIAGE_EVENT, TRIAGE_SECTION_ID, type TriageTarget } from "@/lib/triage-events";
 import { clinicWhatsApp, messageAbout } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
@@ -128,6 +129,15 @@ function ResultCard({ result }: { result: TriageResult }) {
           <p className="text-sm text-muted">{result.doctor.specialty}</p>
         </div>
       </div>
+
+      {result.specialtySlug === "osteoporosis" ? (
+        <Link
+          href={DENSITOMETRY_PATH}
+          className="mt-4 inline-flex min-h-12 items-center gap-1.5 font-display font-semibold text-primary hover:underline"
+        >
+          Todo sobre la densitometría ósea <ArrowUpRight aria-hidden className="size-4" />
+        </Link>
+      ) : null}
 
       <a
         href={clinicWhatsApp(messageAbout(result.topic, result.doctor.name))}

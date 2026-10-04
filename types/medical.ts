@@ -218,4 +218,62 @@ export type IconName =
   | "pill"
   | "waves"
   | "dumbbell"
-  | "microscope";
+  | "microscope"
+  | "calendar"
+  | "clipboard"
+  | "file-check";
+
+/* ---------- Densitometría ósea ---------- */
+
+/** Categorías de la OMS para el T-score. */
+export type BoneDensityLevel = "normal" | "osteopenia" | "osteoporosis";
+
+export interface BoneDensityState {
+  id: BoneDensityLevel;
+  label: string;
+  /** Rango del T-score en texto (p. ej. "−1,0 o más"). */
+  range: string;
+  /** Explicación en una frase, sin jerga. */
+  explanation: string;
+}
+
+export interface DensitometryAudience {
+  id: "para-ti" | "para-tus-padres";
+  title: string;
+  items: readonly string[];
+}
+
+export interface DensitometryStep {
+  id: string;
+  title: string;
+  description: string;
+  icon: IconName;
+}
+
+export interface DensitometryQuestion {
+  id: string;
+  question: string;
+}
+
+export interface DensitometryContent {
+  whatIs: string;
+  technicalName: string;
+  measuredAt: string;
+  purpose: readonly string[];
+  howItWorks: readonly string[];
+  safety: readonly string[];
+  preparation: readonly string[];
+  states: readonly BoneDensityState[];
+  tScoreNote: string;
+  zScore: { range: string; explanation: string; note: string };
+  interpretationNote: string;
+  audiences: readonly DensitometryAudience[];
+  followUp: string;
+  relatedServices: readonly string[];
+  steps: readonly DensitometryStep[];
+  checklist: readonly DensitometryQuestion[];
+  faq: readonly FAQItem[];
+  cta: { label: string; message: string; support: string };
+  disclaimer: string;
+  hud: readonly string[];
+}

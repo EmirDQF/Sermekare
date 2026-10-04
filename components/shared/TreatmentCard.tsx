@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DENSITOMETRY_PATH } from "@/data/densitometry";
 import { ArrowRight, Check, Clock } from "lucide-react";
 import type { Treatment } from "@/types/medical";
 import { IconBadge } from "@/components/shared/Icon";
@@ -37,6 +38,15 @@ export function TreatmentCard({ treatment }: TreatmentCardProps) {
         ))}
       </ul>
 
+      {treatment.slug === "laboratorio-y-densitometria" ? (
+        <Link
+          href={DENSITOMETRY_PATH}
+          className="mt-4 inline-flex min-h-12 items-center gap-2 font-display font-semibold text-primary hover:underline"
+        >
+          Todo sobre la densitometría ósea
+          <ArrowRight aria-hidden strokeWidth={1.75} className="size-5" />
+        </Link>
+      ) : null}
       <Link
         href={`/tratamientos/${treatment.slug}`}
         className="mt-auto inline-flex min-h-12 items-center gap-2 pt-5 font-display font-semibold text-primary hover:underline"

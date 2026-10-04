@@ -7,6 +7,7 @@ import { WhyUs } from "@/components/sections/WhyUs";
 import { ServicesGrid } from "@/components/sections/ServicesGrid";
 import { TreatmentsGrid } from "@/components/sections/TreatmentsGrid";
 import { GuidedVsBlind } from "@/components/sections/GuidedVsBlind";
+import { BoneDensitySection } from "@/components/sections/BoneDensitySection";
 import { CareJourney } from "@/components/sections/CareJourney";
 import { DoctorsSection } from "@/components/sections/DoctorsSection";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -37,6 +38,7 @@ export default function Home() {
       <ServicesGrid />
       <TreatmentsGrid />
       <GuidedVsBlind />
+      <BoneDensitySection />
       <CareJourney />
       <DoctorsSection />
       <Testimonials />

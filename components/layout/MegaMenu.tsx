@@ -6,6 +6,7 @@ import { NavigationMenu } from "radix-ui";
 import { specialties } from "@/data/specialties";
 import { servicePillars } from "@/data/services";
 import { TRIAGE_HREF } from "@/data/navigation";
+import { DENSITOMETRY_PATH } from "@/data/densitometry";
 import { IconBadge } from "@/components/shared/Icon";
 import { JointMotif } from "@/components/shared/JointMotif";
 
@@ -52,6 +53,24 @@ export function SpecialtiesMenu() {
 export function ServicesMenu() {
   return (
     <NavigationMenu.Content className={PANEL}>
+      <NavigationMenu.Link asChild>
+        <Link
+          href={DENSITOMETRY_PATH}
+          className="mb-4 flex items-center gap-4 rounded-2xl bg-navy p-4 text-white transition-colors hover:bg-navy-2 focus-visible:bg-navy-2"
+        >
+          <IconBadge name="scan" className="bg-white/10 text-teal-200" />
+          <span className="min-w-0 flex-1">
+            <span className="flex items-center gap-2 font-display font-semibold">
+              Densitometría ósea
+              <span className="rounded-full bg-teal px-2 py-0.5 text-xs font-bold text-navy">Nuevo</span>
+            </span>
+            <span className="mt-0.5 block text-sm text-slate-300">
+              Mide la fuerza de tus huesos en 10 a 20 minutos. Resultados el mismo día.
+            </span>
+          </span>
+          <ArrowRight aria-hidden className="size-5 shrink-0 text-teal-200" />
+        </Link>
+      </NavigationMenu.Link>
       <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {servicePillars.map((pillar) => (
           <li key={pillar.slug}>

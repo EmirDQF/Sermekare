@@ -1,4 +1,4 @@
-import type { BodyZoneId } from "@/types/medical";
+import type { BodyZoneId, BoneDensityLevel } from "@/types/medical";
 
 /** Valor que la escena lee en cada frame sin provocar renders (p. ej. un MotionValue de motion). */
 export interface FrameValue {
@@ -18,6 +18,8 @@ export interface SceneProps {
   };
   /** Comparador: posición del divisor (0 = todo guiado, 1 = todo a ciegas). */
   ultrasound: { split: FrameValue };
+  /** Densitometría: corte de hueso trabecular que se adelgaza según el estado elegido. */
+  bone: { level: BoneDensityLevel };
 }
 
 export type SceneId = keyof SceneProps;

@@ -1,5 +1,8 @@
 import {
   Activity,
+  CalendarCheck,
+  ClipboardList,
+  FileCheck2,
   Crosshair,
   Dumbbell,
   FlaskConical,
@@ -27,6 +30,9 @@ const ICONS: Record<IconName, LucideIcon> = {
   waves: Waves,
   dumbbell: Dumbbell,
   microscope: Microscope,
+  calendar: CalendarCheck,
+  clipboard: ClipboardList,
+  "file-check": FileCheck2,
 };
 
 interface IconProps {

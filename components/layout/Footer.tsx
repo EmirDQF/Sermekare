@@ -9,6 +9,7 @@ import { doctors } from "@/data/doctors";
 import { legalLinks } from "@/data/navigation";
 import { servicePillars } from "@/data/services";
 import { site } from "@/data/site";
+import { DENSITOMETRY_PATH } from "@/data/densitometry";
 import { specialties } from "@/data/specialties";
 
 const LINK = "inline-flex min-h-10 items-center text-slate-300 transition-colors hover:text-white";
@@ -76,7 +77,10 @@ export function Footer() {
           />
           <FooterColumn
             title="Servicios"
-            links={servicePillars.map((p) => ({ label: p.name, href: `/servicios/${p.slug}` }))}
+            links={[
+              ...servicePillars.map((p) => ({ label: p.name, href: `/servicios/${p.slug}` })),
+              { label: "Densitometría ósea", href: DENSITOMETRY_PATH },
+            ]}
           />
           <FooterColumn
             title="Directorio médico"
