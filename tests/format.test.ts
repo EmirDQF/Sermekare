@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatStat } from "@/lib/format";
+import { formatLongDate, formatStat } from "@/lib/format";
 
 describe("formatStat", () => {
   it("adds prefix and thousands separator", () => {
@@ -13,5 +13,11 @@ describe("formatStat", () => {
 
   it("rounds intermediate animation values", () => {
     expect(formatStat({ prefix: "+" }, 7499.6)).toBe("+7,500");
+  });
+});
+
+describe("formatLongDate", () => {
+  it("formats ISO dates in Peruvian Spanish (setiembre) without timezone drift", () => {
+    expect(formatLongDate("2026-09-22")).toBe("22 de setiembre de 2026");
   });
 });

@@ -138,3 +138,81 @@ export function medicalServiceSchema(info: ServiceInfo): JsonLdObject {
     },
   };
 }
+
+interface ConditionInfo {
+  name: string;
+  description: string;
+  path: string;
+  symptoms: readonly string[];
+}
+
+/** Página informativa de una condición (MedicalCondition dentro de una MedicalWebPage). */
+export function medicalConditionSchema(info: ConditionInfo): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    url: `${site.url}${info.path}`,
+    name: info.name,
+    about: {
+      "@type": "MedicalCondition",
+      name: info.name,
+      description: info.description,
+      signOrSymptom: info.symptoms.map((symptom) => ({ "@type": "MedicalSignOrSymptom", name: symptom })),
+    },
+    publisher: { "@id": `${site.url}/#clinic` },
+  };
+}
+
+interface PhysicianInfo {
+  name: string;
+  path: string;
+  specialty: string;
+  image: string;
+  knowsAbout: readonly string[];
+}
+
+export function physicianSchema(info: PhysicianInfo): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Physician",
+    name: info.name,
+    url: `${site.url}${info.path}`,
+    image: info.image,
+    medicalSpecialty: "Rheumatologic",
+    description: info.specialty,
+    knowsAbout: info.knowsAbout,
+    worksFor: { "@id": `${site.url}/#clinic` },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: site.address.street,
+      addressLocality: site.address.district,
+      addressRegion: site.address.city,
+      addressCountry: "PE",
+    },
+  };
+}
+
+interface ArticleInfo {
+  title: string;
+  description: string;
+  path: string;
+  image: string;
+  datePublished: string;
+  authorName: string;
+  authorPath: string;
+}
+
+export function blogPostingSchema(info: ArticleInfo): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: info.title,
+    description: info.description,
+    url: `${site.url}${info.path}`,
+    image: info.image,
+    datePublished: info.datePublished,
+    inLanguage: "es-PE",
+    author: { "@type": "Person", name: info.authorName, url: `${site.url}${info.authorPath}` },
+    publisher: { "@id": `${site.url}/#clinic` },
+  };
+}

@@ -295,3 +295,29 @@ export interface TreatmentDetail {
   /** Cuidados posteriores (y preparación, cuando aplica). */
   aftercare: readonly string[];
 }
+
+export interface SpecialtyDetail {
+  whoIsAffected: string;
+  diagnosis: readonly string[];
+  /** Slugs de data/treatments.ts relacionados con la condición. */
+  treatments: readonly string[];
+  faq: readonly FAQItem[];
+}
+
+export interface BlogSection {
+  heading: string;
+  paragraphs: readonly string[];
+  bullets?: readonly string[];
+}
+
+export interface BlogArticle {
+  intro: string;
+  sections: readonly BlogSection[];
+  takeaway: string;
+}
+
+export interface FAQGroup {
+  id: string;
+  title: string;
+  items: readonly FAQItem[];
+}

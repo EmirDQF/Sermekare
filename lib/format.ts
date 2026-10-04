@@ -10,3 +10,10 @@ export function formatStat(stat: Pick<TrustStat, "prefix" | "suffix" | "decimals
   });
   return `${stat.prefix ?? ""}${formatted}${stat.suffix ?? ""}`;
 }
+
+const LONG_DATE = new Intl.DateTimeFormat("es-PE", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+
+/** "22 de septiembre de 2026" a partir de una fecha ISO (AAAA-MM-DD). */
+export function formatLongDate(iso: string): string {
+  return LONG_DATE.format(new Date(iso));
+}
