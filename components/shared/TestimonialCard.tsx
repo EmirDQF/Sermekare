@@ -1,6 +1,6 @@
 import { Quote } from "lucide-react";
 import type { Testimonial } from "@/types/medical";
-import { StarRating } from "@/components/shared/StarRating";
+import { AnimatedStars } from "@/components/shared/AnimatedStars";
 import { cn } from "@/lib/utils";
 
 interface TestimonialCardProps {
@@ -19,7 +19,7 @@ export function TestimonialCard({ testimonial, className }: TestimonialCardProps
       )}
     >
       <Quote aria-hidden strokeWidth={1.5} className="absolute right-6 top-6 size-10 text-teal/25" />
-      <StarRating rating={testimonial.rating} />
+      <AnimatedStars rating={testimonial.rating} />
       <p className="mt-3 inline-flex w-fit rounded-full bg-teal-tint px-3 py-1 text-sm font-semibold text-primary">
         {testimonial.condition}
       </p>

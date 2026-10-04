@@ -16,7 +16,12 @@ const VIEWPORT = { once: true, amount: 0.15, margin: "0px 0px 12% 0px" } as cons
 const SPRING: Transition = { type: "spring", stiffness: 100, damping: 20 };
 
 function entrance(delay = 0): Transition {
-  return { y: { ...SPRING, delay }, opacity: { duration: 0.45, ease: EASE, delay } };
+  return {
+    y: { ...SPRING, delay },
+    scale: { ...SPRING, delay },
+    rotateX: { ...SPRING, delay },
+    opacity: { duration: 0.45, ease: EASE, delay },
+  };
 }
 
 interface RevealProps {
@@ -69,16 +74,24 @@ export function RevealGroup({ children, className, as = "div" }: RevealGroupProp
   );
 }
 
+/** Entrada "desde la profundidad" (eje Z): la tarjeta viene del fondo con una leve inclinación. */
+const depthItemVariants: Variants = {
+  hidden: { opacity: 0, y: RISE_PX * 1.5, scale: 0.92, rotateX: 14, transformPerspective: 900 },
+  visible: { opacity: 1, y: 0, scale: 1, rotateX: 0, transformPerspective: 900, transition: entrance() },
+};
+
 interface RevealItemProps {
   children: ReactNode;
   className?: string;
   as?: "div" | "li" | "article";
+  /** Entra desde el fondo (eje Z) en lugar de subir. */
+  depth?: boolean;
 }
 
-export function RevealItem({ children, className, as = "div" }: RevealItemProps) {
+export function RevealItem({ children, className, as = "div", depth = false }: RevealItemProps) {
   const Component = motion[as];
   return (
-    <Component data-reveal className={className} variants={itemVariants}>
+    <Component data-reveal className={className} variants={depth ? depthItemVariants : itemVariants}>
       {children}
     </Component>
   );

@@ -8,7 +8,7 @@ import type { Insurer } from "@/types/medical";
 function InsurerLogo({ insurer }: { insurer: Insurer }) {
   const ItemIcon = insurer.kind === "alianza" ? Handshake : ShieldCheck;
   return (
-    <li className="flex shrink-0 items-center gap-2.5 rounded-2xl border border-line bg-card-solid px-5 py-3 text-subtle grayscale transition hover:text-heading hover:grayscale-0">
+    <li className="shimmer flex shrink-0 items-center gap-2.5 rounded-2xl border border-line bg-card-solid px-5 py-3 text-subtle grayscale transition-[color,filter,transform,box-shadow] duration-300 hover:-translate-y-1 hover:text-heading hover:shadow-soft hover:grayscale-0 hover:[transform:rotateX(10deg)_translateY(-4px)]">
       <ItemIcon aria-hidden strokeWidth={1.75} className="size-6 text-teal" />
       <span className="whitespace-nowrap font-display font-bold tracking-tight">{insurer.label}</span>
     </li>
@@ -38,10 +38,10 @@ export function InsuranceMarquee() {
           </button>
         </div>
         <div
-          className="marquee relative min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]"
+          className="marquee relative min-w-0 flex-1 overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)] [perspective:900px]"
           data-paused={paused}
         >
-          <div className="marquee-track flex w-max gap-4">
+          <div className="marquee-track flex w-max gap-4 [transform-style:preserve-3d]">
             <ul className="flex gap-4">
               {insurers.map((insurer) => (
                 <InsurerLogo key={insurer.id} insurer={insurer} />

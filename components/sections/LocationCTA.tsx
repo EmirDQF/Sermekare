@@ -44,11 +44,16 @@ export function LocationCTA() {
             className="group relative block min-h-72 overflow-hidden rounded-[2rem] border border-line shadow-soft"
             aria-label={`Abrir ${site.address.street}, ${site.address.district} en Google Maps`}
           >
-            <StylizedMap />
-            <span className="absolute left-[62%] top-[34%] -translate-x-1/2 -translate-y-full">
-              <span className="relative grid size-14 place-items-center rounded-full bg-primary text-on-primary shadow-lift">
-                <span aria-hidden className="absolute inset-0 animate-pulse-ring rounded-full bg-teal/50" />
-                <MapPin aria-hidden strokeWidth={1.75} className="relative size-7" />
+            <span className="absolute inset-0 [perspective:1100px]">
+              <span className="absolute inset-[-12%] origin-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [transform-style:preserve-3d] [transform:rotateX(38deg)_rotateZ(-10deg)] group-hover:[transform:rotateX(30deg)_rotateZ(-6deg)]">
+                <StylizedMap />
+                <span className="absolute left-[62%] top-[34%] [transform-style:preserve-3d]">
+                  <span aria-hidden className="absolute -left-10 -top-10 size-20 animate-pulse-ring rounded-full border-2 border-teal/60" />
+                  <span aria-hidden className="absolute -left-10 -top-10 size-20 animate-pulse-ring rounded-full border-2 border-teal/40 [animation-delay:0.8s]" />
+                  <span className="absolute -left-7 -top-14 grid size-14 origin-bottom place-items-center rounded-full bg-primary text-on-primary shadow-lift [transform:rotateX(-38deg)]">
+                    <MapPin aria-hidden strokeWidth={1.75} className="relative size-7" />
+                  </span>
+                </span>
               </span>
             </span>
             <span className="glass absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-2xl p-4 sm:right-auto">

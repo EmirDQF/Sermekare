@@ -1,4 +1,5 @@
 import type { BodyZoneId, BoneDensityLevel } from "@/types/medical";
+import type { MicroVariant } from "@/lib/micro-variants";
 
 /** Valor que la escena lee en cada frame sin provocar renders (p. ej. un MotionValue de motion). */
 export interface FrameValue {
@@ -20,6 +21,8 @@ export interface SceneProps {
   ultrasound: { split: FrameValue };
   /** Densitometría: corte de hueso trabecular que se adelgaza según el estado elegido. */
   bone: { level: BoneDensityLevel };
+  /** Nivel 2: objeto por pilar, tratamiento o condición. energy: hover (0..1) o curación en el triage. */
+  micro: { variant: MicroVariant; energy?: FrameValue };
 }
 
 export type SceneId = keyof SceneProps;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
 import { MotionToggle } from "@/components/layout/MotionToggle";
+import { FooterWaves } from "@/components/layout/FooterWaves";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { ComplaintsBookIcon, SocialIcon } from "@/components/shared/BrandIcons";
 import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
@@ -40,7 +41,8 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy pb-24 text-slate-300 md:pb-0 dark:bg-[#071222]">
+    <footer className="relative isolate overflow-hidden bg-navy pb-24 text-slate-300 md:pb-0 dark:bg-[#071222]">
+      <FooterWaves />
       <div className="container-page grid gap-12 pt-16 lg:grid-cols-[1.2fr_2fr] lg:pt-20">
         <div>
           <Logo tone="inverted" showTagline />

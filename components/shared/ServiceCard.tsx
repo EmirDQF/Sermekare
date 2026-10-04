@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import type { ServicePillar } from "@/types/medical";
 import { IconBadge } from "@/components/shared/Icon";
+import { MicroIcon } from "@/components/3d/MicroIcon";
+import { isMicroVariant } from "@/lib/micro-variants";
 import { cn } from "@/lib/utils";
 
 interface ServiceCardProps {
@@ -11,10 +13,15 @@ interface ServiceCardProps {
 /** Pilar de servicio: el grande muestra todos los subservicios; el resto los despliega. */
 export function ServiceCard({ pillar }: ServiceCardProps) {
   const isLarge = pillar.size === "lg";
+  const icon = <IconBadge name={pillar.icon} size={isLarge ? "lg" : "md"} />;
   return (
     <div className="flex h-full flex-col p-6 sm:p-7">
       <div className="flex items-start justify-between gap-4">
-        <IconBadge name={pillar.icon} size={isLarge ? "lg" : "md"} />
+        {isMicroVariant(pillar.slug) ? (
+          <MicroIcon variant={pillar.slug} fallback={icon} className={cn("-m-3", isLarge ? "size-28" : "size-20")} />
+        ) : (
+          icon
+        )}
         <Link
           href={`/servicios/${pillar.slug}`}
           className="grid size-12 shrink-0 place-items-center rounded-full border border-line text-heading transition-colors hover:border-primary hover:text-primary"

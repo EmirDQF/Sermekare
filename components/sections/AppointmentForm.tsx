@@ -2,9 +2,10 @@
 
 import { useId, useRef, useState, useSyncExternalStore, type FormEvent, type ReactNode } from "react";
 import Link from "next/link";
-import { CheckCircle2, Clock, Mail, MapPin, ShieldCheck, User, Users, Video } from "lucide-react";
+import { Clock, Mail, MapPin, ShieldCheck, User, Users, Video } from "lucide-react";
 import type { Appointment, AppointmentFor, Modality } from "@/types/medical";
 import { WhatsAppIcon } from "@/components/shared/BrandIcons";
+import { SuccessBurst } from "@/components/shared/SuccessBurst";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { buttonVariants } from "@/components/ui/button";
 import { site } from "@/data/site";
@@ -170,7 +171,7 @@ export function AppointmentForm() {
         <div className="rounded-[2rem] border border-line bg-card-solid p-6 shadow-lift sm:p-8">
           {sentMessage ? (
             <div role="status" className="text-center">
-              <CheckCircle2 aria-hidden strokeWidth={1.5} className="mx-auto size-16 text-primary" />
+              <SuccessBurst />
               <h3 className="text-h3 mt-4">¡Listo! Tu solicitud está en WhatsApp</h3>
               <p className="mt-2 text-muted">
                 Envía el mensaje que se abrió y te confirmaremos tu cita. Te respondemos en horario de atención (

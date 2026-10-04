@@ -348,6 +348,70 @@
   to { background-position: 100% 50%; }
 }
 
+/* Borde de gradiente cónico que gira lento (bento de "Por qué SERMEKARE") */
+@property --conic-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@utility conic-border {
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(from var(--conic-angle), transparent 0deg, rgb(0 168 150 / 0.7) 70deg, rgb(2 132 199 / 0.45) 140deg, transparent 220deg);
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    animation: conic-spin 9s linear infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes conic-spin {
+  to { --conic-angle: 360deg; }
+}
+
+/* Borde que se ilumina siguiendo al cursor (SpotlightCard): --spot-x / --spot-y */
+@utility spotlight-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: radial-gradient(260px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--teal), transparent 70%);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Brillo breve cuando un contador termina */
+.counter-done {
+  animation: counter-glow 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes counter-glow {
+  0% { text-shadow: 0 0 0 transparent; }
+  30% { text-shadow: 0 0 28px rgb(45 212 191 / 0.85); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+
+/* Acordeón: altura con un pequeño rebote (resorte) */
+@keyframes accordion-down {
+  0% { height: 0; opacity: 0; }
+  70% { height: calc(var(--radix-accordion-content-height) * 1.02); opacity: 1; }
+  100% { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+.accordion-content[data-state="open"] { animation: accordion-down 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+.accordion-content[data-state="closed"] { animation: accordion-up 0.25s ease-out; }
+
 @keyframes shimmer-sweep {
   0%, 84% { transform: translateX(-120%); }
   100% { transform: translateX(120%); }

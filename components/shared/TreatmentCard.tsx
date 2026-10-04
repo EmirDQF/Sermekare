@@ -3,6 +3,8 @@ import { DENSITOMETRY_PATH } from "@/data/densitometry";
 import { ArrowRight, Check, Clock } from "lucide-react";
 import type { Treatment } from "@/types/medical";
 import { IconBadge } from "@/components/shared/Icon";
+import { MicroIcon } from "@/components/3d/MicroIcon";
+import { isMicroVariant } from "@/lib/micro-variants";
 
 interface TreatmentCardProps {
   treatment: Treatment;
@@ -12,7 +14,11 @@ export function TreatmentCard({ treatment }: TreatmentCardProps) {
   return (
     <article className="flex h-full flex-col p-6 sm:p-7">
       <div className="flex items-center justify-between gap-3">
-        <IconBadge name={treatment.icon} />
+        {isMicroVariant(treatment.slug) ? (
+          <MicroIcon variant={treatment.slug} fallback={<IconBadge name={treatment.icon} />} className="-m-3 size-20" />
+        ) : (
+          <IconBadge name={treatment.icon} />
+        )}
         <span className="inline-flex items-center gap-1.5 rounded-full bg-bg-alt px-3 py-1.5 text-sm font-medium text-muted">
           <Clock aria-hidden strokeWidth={1.75} className="size-4" />
           <span className="sr-only">Duración aproximada:</span>

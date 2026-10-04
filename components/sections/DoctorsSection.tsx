@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { DoctorCard } from "@/components/shared/DoctorCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/shared/Reveal";
+import { TiltCard } from "@/components/shared/TiltCard";
 import { doctors } from "@/data/doctors";
 
 export function DoctorsSection() {
@@ -27,7 +28,9 @@ export function DoctorsSection() {
         <RevealGroup as="ul" className="mt-12 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {doctors.map((doctor) => (
             <RevealItem as="li" key={doctor.slug}>
-              <DoctorCard doctor={doctor} />
+              <TiltCard className="h-full rounded-[1.75rem]">
+                <DoctorCard doctor={doctor} />
+              </TiltCard>
             </RevealItem>
           ))}
         </RevealGroup>

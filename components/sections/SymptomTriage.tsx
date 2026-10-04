@@ -8,6 +8,7 @@ import { AlertTriangle, ArrowUpRight, PersonStanding, Stethoscope, Tags } from "
 import type { BodyZoneId, Doctor, SpecialtySlug } from "@/types/medical";
 import { BodyMap } from "@/components/sections/BodyMap";
 import { Scene3DSlot } from "@/components/3d/Scene3DSlot";
+import { ConditionShowcase } from "@/components/sections/ConditionShowcase";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
 import { WhatsAppIcon } from "@/components/shared/BrandIcons";
@@ -293,6 +294,7 @@ export function SymptomTriage() {
                 <ZoneChips selected={selectedZone} onSelect={selectZone} hidden={!hologramOn} />
               </TabsContent>
               <TabsContent value="condicion">
+                <ConditionShowcase selected={selectedCondition} />
                 <ul className="flex flex-wrap justify-center gap-3 lg:justify-start" aria-label="Condiciones">
                   {triageSpecialties.map((specialty) => {
                     const active = selectedCondition === specialty.slug;

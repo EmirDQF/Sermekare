@@ -31,6 +31,7 @@ export function AnimatedCounter({ stat, className }: AnimatedCounterProps) {
       onUpdate: (v) => {
         node.textContent = formatStat(stat, v);
       },
+      onComplete: () => node.classList.add("counter-done"),
     });
     return () => controls.stop();
   }, [inView, reduceMotion, stat]);

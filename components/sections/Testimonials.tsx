@@ -28,7 +28,7 @@ export function Testimonials() {
         />
         <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <RevealItem key={testimonial.id} className={cn(testimonial.featured && "lg:col-span-2")}>
+            <RevealItem depth key={testimonial.id} className={cn(testimonial.featured && "lg:col-span-2")}>
               <TestimonialCard testimonial={testimonial} />
             </RevealItem>
           ))}

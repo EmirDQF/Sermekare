@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Award, GraduationCap } from "lucide-react";
+import { Award, GraduationCap, ShieldCheck } from "lucide-react";
 import type { Doctor } from "@/types/medical";
 import { DoctorAvailabilityDialog } from "@/components/shared/DoctorAvailabilityDialog";
 
@@ -17,7 +17,7 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
           alt={doctor.photoAlt}
           fill
           sizes="(min-width: 1280px) 300px, (min-width: 640px) 45vw, 92vw"
-          className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.03]"
+          className="scale-[1.06] object-cover object-top transition-[scale,translate] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] [translate:calc(var(--tilt-x,0)*-10px)_calc(var(--tilt-y,0)*-10px)] group-hover:scale-[1.1]"
         />
         <span className="glass absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-heading">
           <Award aria-hidden strokeWidth={1.75} className="size-4 text-primary" />
@@ -32,7 +32,8 @@ export function DoctorCard({ doctor }: DoctorCardProps) {
           </Link>
         </h3>
         <p className="mt-1 font-medium text-primary">{doctor.specialty}</p>
-        <p className="mt-1 text-sm text-muted">
+        <p className="mt-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-bg-alt px-3 py-1 text-sm font-medium text-muted shadow-[inset_0_1px_0_rgb(255_255_255/0.9),inset_0_-1px_2px_rgb(15_23_42/0.08),0_1px_2px_rgb(15_23_42/0.06)] dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.08),inset_0_-1px_2px_rgb(0_0_0/0.4)]">
+          <ShieldCheck aria-hidden strokeWidth={1.75} className="size-4 text-primary" />
           CMP {doctor.cmp} · RNE {doctor.rne}
         </p>
         <p className="mt-4 flex items-start gap-2 text-[0.95rem] text-muted">

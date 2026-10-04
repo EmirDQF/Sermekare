@@ -58,7 +58,7 @@ export function WhyUs() {
         />
 
         <RevealGroup className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <RevealItem className="relative overflow-hidden rounded-[1.75rem] bg-navy p-7 text-white sm:col-span-2 lg:row-span-2 dark:bg-navy-3">
+          <RevealItem className="conic-border relative overflow-hidden rounded-[1.75rem] bg-navy p-7 text-white sm:col-span-2 lg:row-span-2 dark:bg-navy-3">
             <div aria-hidden className="absolute -right-16 -top-16 size-56 rounded-full bg-teal/25 blur-3xl" />
             <p className="relative font-display text-lg font-semibold text-teal-200">Nuestros números</p>
             <dl className="relative mt-6 grid grid-cols-2 gap-x-6 gap-y-8">
@@ -83,7 +83,7 @@ export function WhyUs() {
           {DIFFERENTIATORS.map(({ icon: ItemIcon, title, text, className }) => (
             <RevealItem
               key={title}
-              className={cn("rounded-[1.75rem] border border-line bg-card-solid p-6 shadow-soft", className)}
+              className={cn("conic-border glass rounded-[1.75rem] p-6 shadow-soft", className)}
             >
               <span className="grid size-12 place-items-center rounded-2xl bg-teal-tint text-primary">
                 <ItemIcon aria-hidden strokeWidth={1.75} className="size-6" />

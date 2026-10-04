@@ -13,6 +13,7 @@ const SCENES: { [K in SceneId]: ComponentType<SceneProps[K]> } = {
   hologram: lazy(() => import("@/components/3d/BodyHologram3D")),
   ultrasound: lazy(() => import("@/components/3d/UltrasoundScanFX")),
   bone: lazy(() => import("@/components/3d/BoneDensity3D")),
+  micro: lazy(() => import("@/components/3d/MicroScene")),
 };
 
 interface FirstFrameProps {
