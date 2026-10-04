@@ -16,7 +16,7 @@ const BASE =
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary:
-    "bg-primary text-on-primary shadow-[0_10px_28px_-10px_rgb(0_118_106/0.7)] hover:bg-primary-hover hover:shadow-[0_14px_36px_-8px_rgb(0_168_150/0.65)]",
+    "shimmer bg-primary text-on-primary shadow-[0_10px_28px_-10px_rgb(0_118_106/0.7)] hover:bg-primary-hover hover:shadow-[0_14px_36px_-8px_rgb(0_168_150/0.65)]",
   secondary: "bg-navy text-white hover:bg-navy-2 dark:bg-white dark:text-navy dark:hover:bg-slate-200",
   outline:
     "border border-line-strong bg-card-solid/70 text-heading hover:border-primary hover:text-primary dark:bg-white/5",

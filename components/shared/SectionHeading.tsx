@@ -1,9 +1,12 @@
 import type { ReactNode } from "react";
+import { KineticText } from "@/components/shared/KineticText";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
   eyebrow: string;
   title: ReactNode;
+  /** Frase del título (si es texto) que se resalta con el gradiente teal animado. */
+  accent?: string;
   description?: ReactNode;
   align?: "left" | "center";
   /** id del h2, para enlazarlo con aria-labelledby en la sección. */
@@ -15,6 +18,7 @@ interface SectionHeadingProps {
 export function SectionHeading({
   eyebrow,
   title,
+  accent,
   description,
   align = "center",
   id,
@@ -34,7 +38,7 @@ export function SectionHeading({
         {eyebrow}
       </p>
       <h2 id={id} className={cn("text-h2 mt-4", inverted && "text-white")}>
-        {title}
+        {typeof title === "string" ? <KineticText text={title} accent={accent} tone={tone} /> : title}
       </h2>
       {description ? (
         <p className={cn("mt-4 text-lg", inverted ? "text-slate-200" : "text-muted")}>{description}</p>

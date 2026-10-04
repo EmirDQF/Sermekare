@@ -15,7 +15,7 @@ const TRUST_ITEMS = [
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="relative isolate overflow-hidden pb-16 pt-36 sm:pt-40 lg:pb-24 lg:pt-44">
+    <section aria-labelledby="hero-title" className="relative overflow-hidden pb-16 pt-36 sm:pt-40 lg:pb-24 lg:pt-44">
       <div aria-hidden className="mesh-bg -z-10" />
       <div className="container-page grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-10">
         <div>
@@ -31,7 +31,7 @@ export function Hero() {
             que vuelvas a moverte con confianza.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#agendar" className={buttonVariants({ variant: "primary", size: "lg" })}>
+            <a href="#agendar" className={buttonVariants({ variant: "primary", size: "lg", className: "shimmer-auto" })}>
               Reservar cita médica
               <ArrowDown aria-hidden strokeWidth={1.75} />
             </a>

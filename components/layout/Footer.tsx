@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/Logo";
+import { MotionToggle } from "@/components/layout/MotionToggle";
 import { NewsletterForm } from "@/components/layout/NewsletterForm";
 import { ComplaintsBookIcon, SocialIcon } from "@/components/shared/BrandIcons";
 import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
@@ -127,15 +128,18 @@ export function Footer() {
             <ComplaintsBookIcon className="h-7 w-9" />
             <span className="font-display font-semibold">Libro de Reclamaciones</span>
           </Link>
-          <ul className="flex flex-wrap gap-x-6">
-            {legalLinks.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className={LINK}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-8">
+            <ul className="flex flex-wrap gap-x-6">
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={LINK}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <MotionToggle />
+          </div>
         </div>
         <MedicalDisclaimer tone="inverted" className="mt-6" />
         <p className="mt-6 text-sm text-slate-400">

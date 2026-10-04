@@ -3,6 +3,7 @@
 import { useEffect, type ReactNode } from "react";
 import Lenis from "lenis";
 import { MotionConfig } from "motion/react";
+import { useReducedMotionPreference } from "@/lib/motion-preference";
 
 const HEADER_OFFSET_PX = -96;
 
@@ -10,10 +11,15 @@ interface ProvidersProps {
   children: ReactNode;
 }
 
-/** Smooth scroll (Lenis) y preferencias de movimiento para toda la app. */
+/**
+ * Smooth scroll (Lenis) y preferencias de movimiento para toda la app.
+ * Respeta prefers-reduced-motion y el interruptor "Reducir animaciones" del footer.
+ */
 export function Providers({ children }: ProvidersProps) {
+  const reduceMotion = useReducedMotionPreference();
+
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (reduceMotion !== false) return;
     const lenis = new Lenis({
       autoRaf: true,
       lerp: 0.12,
@@ -21,7 +27,7 @@ export function Providers({ children }: ProvidersProps) {
       prevent: (node) => node.closest("[data-lenis-prevent]") !== null,
     });
     return () => lenis.destroy();
-  }, []);
+  }, [reduceMotion]);
 
-  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
+  return <MotionConfig reducedMotion={reduceMotion ? "always" : "user"}>{children}</MotionConfig>;
 }

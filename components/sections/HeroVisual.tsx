@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useMemo, useRef, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { BadgeCheck, Star, Users, Video } from "lucide-react";
 import { JointMotif } from "@/components/shared/JointMotif";
+import { Scene3DSlot } from "@/components/3d/Scene3DSlot";
 import { homeImages } from "@/data/home";
 import { site } from "@/data/site";
 import { formatStat } from "@/lib/format";
@@ -24,7 +25,7 @@ function FloatingCard({ children, className, y, delay }: FloatingCardProps) {
       initial={{ opacity: 0, scale: 0.94 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}
-      className={cn("glass absolute flex items-center gap-3 rounded-2xl px-4 py-3 shadow-lift", className)}
+      className={cn("glass absolute z-[45] flex items-center gap-3 rounded-2xl px-4 py-3 shadow-lift", className)}
     >
       {children}
     </motion.div>
@@ -39,13 +40,17 @@ function CardIcon({ children }: { children: ReactNode }) {
   );
 }
 
-/** Foto del médico en forma orgánica + motivo de la articulación + tarjetas glass con parallax suave. */
+/**
+ * Foto del médico en forma orgánica + rodilla 3D (JointViewer3D; el JointMotif 2D queda como fallback)
+ * + tarjetas glass con parallax suave.
+ */
 export function HeroVisual() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const ySlow = useTransform(scrollYProgress, [0, 1], [0, -40]);
   const yFast = useTransform(scrollYProgress, [0, 1], [0, -90]);
   const yJoint = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const jointProps = useMemo(() => ({ progress: scrollYProgress }), [scrollYProgress]);
 
   return (
     <div ref={ref} className="relative mx-auto aspect-[4/4.6] w-full max-w-[34rem]">
@@ -62,8 +67,18 @@ export function HeroVisual() {
         />
       </div>
 
-      <motion.div style={{ y: yJoint }} className="absolute -bottom-2 -left-3 w-[30%] sm:-left-6">
-        <JointMotif className="h-auto w-full drop-shadow-xl" label="Articulación que pasa de inflamada a aliviada" />
+      <motion.div style={{ y: yJoint }} className="absolute -bottom-[6%] -left-[3%] aspect-[5/6] w-[56%] sm:-left-[12%]">
+        <div aria-hidden className="absolute inset-[18%] rounded-full bg-teal/20 blur-3xl dark:bg-teal/15" />
+        <Scene3DSlot
+          scene="joint"
+          sceneProps={jointProps}
+          className="size-full"
+          fallback={
+            <div className="flex size-full items-end pb-[4%] pl-[8%]">
+              <JointMotif className="h-auto w-[62%] drop-shadow-xl" label="Articulación que pasa de inflamada a aliviada" />
+            </div>
+          }
+        />
       </motion.div>
 
       <FloatingCard y={ySlow} delay={0.5} className="left-0 top-[10%] sm:-left-6">
@@ -97,7 +112,7 @@ export function HeroVisual() {
         </span>
       </FloatingCard>
 
-      <FloatingCard y={yFast} delay={0.95} className="bottom-[4%] right-[12%]">
+      <FloatingCard y={yFast} delay={0.95} className="bottom-[4%] right-0 sm:right-[12%]">
         <CardIcon>
           <BadgeCheck aria-hidden strokeWidth={1.75} />
         </CardIcon>

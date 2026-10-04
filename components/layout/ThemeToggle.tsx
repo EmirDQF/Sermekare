@@ -1,39 +1,15 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
 import { Moon, Sun } from "lucide-react";
+import { applyTheme, useTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
-
-export const THEME_STORAGE_KEY = "sermekare-theme";
-type Theme = "light" | "dark";
-
-function readTheme(): Theme {
-  return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
-}
-
-function subscribe(onChange: () => void): () => void {
-  const observer = new MutationObserver(onChange);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
-  return () => observer.disconnect();
-}
-
-const getServerSnapshot = (): Theme | null => null;
-
-function applyTheme(theme: Theme): void {
-  document.documentElement.dataset.theme = theme;
-  try {
-    localStorage.setItem(THEME_STORAGE_KEY, theme);
-  } catch {
-    // Almacenamiento bloqueado (modo privado): el tema se aplica solo en esta visita.
-  }
-}
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const theme = useSyncExternalStore(subscribe, readTheme, getServerSnapshot);
+  const theme = useTheme();
   const isDark = theme === "dark";
 
   return (

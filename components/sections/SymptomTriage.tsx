@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { AlertTriangle, ArrowUpRight, PersonStanding, Stethoscope, Tags } from "lucide-react";
 import type { BodyZoneId, Doctor, SpecialtySlug } from "@/types/medical";
 import { BodyMap } from "@/components/sections/BodyMap";
+import { Scene3DSlot } from "@/components/3d/Scene3DSlot";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { MedicalDisclaimer } from "@/components/shared/MedicalDisclaimer";
 import { WhatsAppIcon } from "@/components/shared/BrandIcons";
@@ -20,6 +21,10 @@ import { clinicWhatsApp, messageAbout } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 type TriageMode = "zona" | "condicion";
+
+/** Pestañas sobre el fondo navy: activa en teal (contraste AA con texto navy). */
+const IMMERSIVE_TRIGGER =
+  "text-slate-300 hover:text-white data-[state=active]:bg-teal data-[state=active]:text-navy dark:data-[state=active]:bg-teal";
 
 interface TriageResult {
   key: string;
@@ -139,20 +144,65 @@ function ResultCard({ result }: { result: TriageResult }) {
 
 function EmptyState() {
   return (
-    <div className="grid h-full min-h-72 place-items-center rounded-[1.75rem] border border-dashed border-line-strong p-8 text-center">
+    <div className="grid h-full min-h-72 place-items-center rounded-[1.75rem] border border-dashed border-white/20 bg-white/[0.03] p-8 text-center backdrop-blur-sm">
       <div>
-        <PersonStanding aria-hidden strokeWidth={1.5} className="mx-auto size-12 text-teal" />
-        <p className="mt-4 font-display text-xl font-bold text-heading">Elige una zona o una condición</p>
-        <p className="mt-2 text-muted">Te mostraremos señales de alerta, cómo lo tratamos y qué especialista te puede ayudar.</p>
+        <PersonStanding aria-hidden strokeWidth={1.5} className="mx-auto size-12 text-teal-300" />
+        <p className="mt-4 font-display text-xl font-bold text-white">Elige una zona o una condición</p>
+        <p className="mt-2 text-slate-300">Te mostraremos señales de alerta, cómo lo tratamos y qué especialista te puede ayudar.</p>
       </div>
     </div>
   );
 }
 
-/** "¿Dónde te duele?": triage orientativo por zona del cuerpo o por condición. */
+interface ZoneChipsProps {
+  selected: BodyZoneId | null;
+  onSelect: (zone: BodyZoneId) => void;
+  /** Sin 3D, el BodyMap ya trae sus botones: los chips solo reservan su espacio (sin CLS). */
+  hidden: boolean;
+}
+
+/** Alternativa accesible al holograma: un botón de 48 px por zona (teclado y lectores de pantalla). */
+function ZoneChips({ selected, onSelect, hidden }: ZoneChipsProps) {
+  return (
+    <ul
+      aria-label="Zonas del cuerpo"
+      className={cn(
+        "no-scrollbar -mx-4 mt-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-wrap lg:justify-center lg:overflow-visible lg:px-0",
+        hidden && "invisible",
+      )}
+    >
+      {bodyZones.map((zone) => {
+        const active = selected === zone.id;
+        return (
+          <li key={zone.id} className="shrink-0">
+            <button
+              type="button"
+              aria-pressed={active}
+              onClick={() => onSelect(zone.id)}
+              className={cn(
+                "min-h-12 rounded-full border px-4 font-display text-[0.95rem] font-semibold transition-colors",
+                active
+                  ? "border-transparent bg-teal text-navy"
+                  : "border-white/15 bg-white/5 text-white hover:border-teal-300 hover:text-teal-200",
+              )}
+            >
+              {zone.label}
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+const HOLOGRAM_HINT = "Toca un punto del holograma o elige una zona";
+
+/** "¿Dónde te duele?": triage orientativo por zona del cuerpo o por condición (fondo navy inmersivo + holograma 3D). */
 export function SymptomTriage() {
   const [mode, setMode] = useState<TriageMode>("zona");
   const [target, setTarget] = useState<TriageTarget | null>(null);
+  const [hologramOn, setHologramOn] = useState(false);
+  const [hoveredZone, setHoveredZone] = useState<BodyZoneId | null>(null);
 
   useEffect(() => {
     const handle = (event: Event) => {
@@ -168,37 +218,69 @@ export function SymptomTriage() {
   const selectedZone: BodyZoneId | null = target?.kind === "zone" ? target.zone : null;
   const selectedCondition: SpecialtySlug | null = target?.kind === "condition" ? target.slug : null;
 
+  const selectZone = useCallback((zone: BodyZoneId) => setTarget({ kind: "zone", zone }), []);
+  const hologramProps = useMemo(
+    () => ({ selected: selectedZone, onSelect: selectZone, onHover: setHoveredZone }),
+    [selectedZone, selectZone],
+  );
+  const captionZone = hoveredZone ?? selectedZone;
+  const caption = captionZone ? getBodyZone(captionZone).label : HOLOGRAM_HINT;
+
   return (
-    <section id={TRIAGE_SECTION_ID} aria-labelledby="triage-title" className="section-y relative isolate overflow-hidden bg-bg-alt">
-      <div aria-hidden className="mesh-bg -z-10 opacity-60" />
+    <section
+      id={TRIAGE_SECTION_ID}
+      aria-labelledby="triage-title"
+      className="section-y relative isolate overflow-hidden rounded-[2.5rem] bg-navy text-slate-200 lg:rounded-[4rem] dark:bg-[#071222]"
+    >
+      <div aria-hidden className="immersive-glow -z-10" />
+      <div aria-hidden className="immersive-grid -z-10" />
       <div className="container-page">
         <SectionHeading
+          tone="inverted"
           id="triage-title"
           eyebrow="Orientación en 1 minuto"
           title="¿Dónde te duele?"
+          accent="duele?"
           description="Toca la zona de tu cuerpo o elige una condición. Te orientamos sobre qué puede ser y con quién atenderte."
         />
 
         <Tabs value={mode} onValueChange={(value) => setMode(value as TriageMode)} className="mt-10">
           <div className="flex justify-center">
-            <TabsList aria-label="Modo de búsqueda">
-              <TabsTrigger value="zona">
+            <TabsList aria-label="Modo de búsqueda" className="border-white/10 bg-white/5 shadow-none backdrop-blur-md">
+              <TabsTrigger value="zona" className={IMMERSIVE_TRIGGER}>
                 <PersonStanding aria-hidden strokeWidth={1.75} /> Por zona
               </TabsTrigger>
-              <TabsTrigger value="condicion">
+              <TabsTrigger value="condicion" className={IMMERSIVE_TRIGGER}>
                 <Tags aria-hidden strokeWidth={1.75} /> Por condición
               </TabsTrigger>
             </TabsList>
           </div>
 
-          <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div className="mt-10 grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
             <div>
               <TabsContent value="zona">
-                <BodyMap
-                  zones={bodyZones}
-                  selected={selectedZone}
-                  onSelect={(zone) => setTarget({ kind: "zone", zone })}
+                <Scene3DSlot
+                  scene="hologram"
+                  interactive
+                  sceneProps={hologramProps}
+                  onShowingChange={setHologramOn}
+                  className="mx-auto aspect-[3/4] w-full max-w-[25rem]"
+                  fallback={
+                    <div className="grid size-full place-items-center">
+                      <BodyMap zones={bodyZones} selected={selectedZone} onSelect={selectZone} />
+                    </div>
+                  }
                 />
+                <p
+                  aria-hidden
+                  className={cn(
+                    "mt-3 text-center font-display text-sm font-semibold tracking-wide text-teal-200",
+                    !hologramOn && "invisible",
+                  )}
+                >
+                  {caption}
+                </p>
+                <ZoneChips selected={selectedZone} onSelect={selectZone} hidden={!hologramOn} />
               </TabsContent>
               <TabsContent value="condicion">
                 <ul className="flex flex-wrap justify-center gap-3 lg:justify-start" aria-label="Condiciones">
@@ -213,8 +295,8 @@ export function SymptomTriage() {
                           className={cn(
                             "min-h-12 rounded-full border px-5 font-display font-semibold transition-colors",
                             active
-                              ? "border-transparent bg-navy text-white dark:bg-teal dark:text-navy"
-                              : "border-line-strong bg-card-solid text-heading hover:border-primary hover:text-primary",
+                              ? "border-transparent bg-teal text-navy"
+                              : "border-white/15 bg-white/5 text-white hover:border-teal-300 hover:text-teal-200",
                           )}
                         >
                           {specialty.shortName}
@@ -230,7 +312,7 @@ export function SymptomTriage() {
               <AnimatePresence mode="wait">
                 {result ? <ResultCard key={result.key} result={result} /> : <EmptyState key="empty" />}
               </AnimatePresence>
-              <MedicalDisclaimer />
+              <MedicalDisclaimer tone="inverted" />
             </div>
           </div>
         </Tabs>

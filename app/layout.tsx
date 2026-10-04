@@ -4,6 +4,7 @@ import { Providers } from "@/components/layout/Providers";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
+import { CanvasHost } from "@/components/3d/CanvasHost";
 import { WhatsAppFloat } from "@/components/shared/WhatsAppFloat";
 import { JsonLd } from "@/components/shared/JsonLd";
 import { site } from "@/data/site";
@@ -26,8 +27,9 @@ const jakarta = Plus_Jakarta_Sans({
 
 const DEFAULT_TITLE = `Reumatólogo en Lima (San Borja) | ${site.name}`;
 
-/** Debe coincidir con THEME_STORAGE_KEY en components/layout/ThemeToggle.tsx. */
+/** Deben coincidir con THEME_STORAGE_KEY (lib/theme.ts) y MOTION_STORAGE_KEY (lib/motion-preference.ts). */
 const THEME_STORAGE_KEY = "sermekare-theme";
+const MOTION_STORAGE_KEY = "sermekare-motion";
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -64,14 +66,23 @@ export const viewport: Viewport = {
   ],
 };
 
-/** Aplica el tema guardado antes del primer pintado (evita el destello de tema incorrecto). */
-const THEME_SCRIPT = `try{var t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t}catch(e){}`;
+/**
+ * Antes del primer pintado: aplica el tema guardado (evita el destello) y el interruptor
+ * "Reducir animaciones" del footer (data-reduce-motion), igual que prefers-reduced-motion.
+ */
+const PREFERENCES_SCRIPT = `try{var d=document.documentElement,t=localStorage.getItem("${THEME_STORAGE_KEY}");if(t==="dark"||t==="light")d.dataset.theme=t;if(localStorage.getItem("${MOTION_STORAGE_KEY}")==="reduce")d.dataset.reduceMotion="true"}catch(e){}`;
+
+/** Sin JavaScript, el contenido con animación de entrada debe verse igual. */
+const NO_SCRIPT_STYLE = "[data-reveal],[data-kinetic] *{opacity:1!important;transform:none!important;filter:none!important}";
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="es-PE" data-theme="light" suppressHydrationWarning className={`${inter.variable} ${jakarta.variable}`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_SCRIPT }} />
+        <noscript>
+          <style dangerouslySetInnerHTML={{ __html: NO_SCRIPT_STYLE }} />
+        </noscript>
       </head>
       <body className="min-h-dvh overflow-x-clip">
         <JsonLd data={clinicSchema()} />
@@ -83,6 +94,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <WhatsAppFloat />
           <MobileActionBar />
+          <CanvasHost />
         </Providers>
       </body>
     </html>
